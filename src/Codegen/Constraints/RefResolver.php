@@ -114,6 +114,7 @@ trait RefResolver {
   }
 
   protected function loadSchema(string $fp): ?TSchema {
+    // Load the schema file from disk
     $contents = \file_get_contents($fp);
     if (!$contents) {
       return null;
@@ -130,7 +131,12 @@ trait RefResolver {
       throw new \Exception("Failed decoding schema: `{$fp}`");
     }
 
-    return type_assert_shape($schema, 'Slack\Hack\JsonSchema\Codegen\TSchema');
+    // Apply preprocessing to handle propertyNames with $ref to enums.
+    // This ensures that any schema loaded via $ref gets the same preprocessing.
+    $typed_schema = type_assert_shape($schema, 'Slack\Hack\JsonSchema\Codegen\TSchema');
+    $preprocessed_schema = SchemaPreprocessor::preprocessSchemaForEnumKeys($typed_schema, $fp);
+
+    return $preprocessed_schema;
   }
 
 }

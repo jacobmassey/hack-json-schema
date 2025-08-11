@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "property-names-enum-keys.json"
+      },
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "data": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "property-names-enum-numbers.json"
+      },
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    }
+  }
+}

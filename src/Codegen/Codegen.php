@@ -199,6 +199,11 @@ final class Codegen implements IBuilder {
       throw new \Exception("Failed decoding schema: `{$schema_path}`");
     }
 
+    // Apply preprocessing to handle propertyNames with $ref to enums.
+    $typed_schema = type_assert_shape($schema, 'Slack\Hack\JsonSchema\Codegen\TSchema');
+    $schema = SchemaPreprocessor::preprocessSchemaForEnumKeys($typed_schema, $schema_path);
+    $schema = Shapes::toDict($schema);
+
     $refs = $config['validator']['refs'] ?? shape();
     $refs['root_directory'] = \dirname($schema_path);
     $config['validator']['refs'] = $refs;

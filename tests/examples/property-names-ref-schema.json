@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "propertyNames": {
+    "$ref": "property-names-enum-keys.json"
+  },
+  "additionalProperties": {
+    "type": "string"
+  }
+}
